@@ -565,14 +565,30 @@ class DataAPIClient(BaseAPIClient):
         return self._get(
             "/briefs/{}".format(brief_id))
 
-    def find_briefs(self, user_id=None, status=None, framework=None, lot=None, page=None):
+    def find_briefs(self, user_id=None,
+                    status=None, statuses=None,
+                    framework=None, frameworks=None,
+                    lot=None, lots=None, 
+                    page=None):
+        if status is not None and statuses is not None:
+            raise TypeError("Cannot specify both status and statuses together")
+        if framework is not None and frameworks is not None:
+            raise TypeError("Cannot specify both framework and frameworks together")
+        if lot is not None and lots is not None:
+            raise TypeError("Cannot specify both lot and lots together")
+
+        # turn any singular arguments into one-element sequences
+        statuses = statuses or (status and (status,))
+        frameworks = frameworks or (framework and (framework,))
+        lots = lots or (lot and (lot,))
+
         return self._get(
             "/briefs",
             params={"user_id": user_id,
-                    "framework": framework,
-                    "lot": lot,
-                    "status": status,
-                    "page": page
+                    "framework": frameworks and ",".join(frameworks),
+                    "lot": lots and ",".join(lots),
+                    "status": statuses and ",".join(statuses),
+                    "page": page,
                     }
         )
 

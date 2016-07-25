@@ -1684,7 +1684,11 @@ class TestDataApiClient(object):
             json={"briefs": [{"biscuit": "tasty"}]},
             status_code=200)
 
-        result = data_client.find_briefs(status="live,closed", framework="digital-biscuits", lot="custard-creams")
+        result = data_client.find_briefs(   
+            statuses=("live", "closed",),
+            framework="digital-biscuits",
+            lot="custard-creams",
+        )
 
         assert rmock.called
         assert result == {"briefs": [{"biscuit": "tasty"}]}
