@@ -106,36 +106,36 @@ class BaseAPIClient(object):
         self._enabled = enabled
         self._timeout = timeout
 
-    def _patch(self, url, data):
-        return self._request("PATCH", url, data=data)
+    def _patch(self, url, data, *, wait_for_response=True):
+        return self._request("PATCH", url, data=data, wait_for_response=wait_for_response)
 
-    def _patch_with_updated_by(self, url, data, user):
-        data = dict(data, updated_by=user)
+    def _patch_with_updated_by(self, url, data, user, *, wait_for_response=True):
+        data = dict(data, updated_by=user, wait_for_response=wait_for_response)
         return self._patch(url, data)
 
-    def _put(self, url, data):
-        return self._request("PUT", url, data=data)
+    def _put(self, url, data, *, wait_for_response=True):
+        return self._request("PUT", url, data=data, wait_for_response=wait_for_response)
 
-    def _put_with_updated_by(self, url, data, user):
-        data = dict(data, updated_by=user)
+    def _put_with_updated_by(self, url, data, user, *, wait_for_response=True):
+        data = dict(data, updated_by=user, wait_for_response=wait_for_response)
         return self._put(url, data)
 
-    def _get(self, url, params=None):
-        return self._request("GET", url, params=params)
+    def _get(self, url, params=None, *, wait_for_response=True):
+        return self._request("GET", url, params=params, wait_for_response=wait_for_response)
 
-    def _post(self, url, data):
-        return self._request("POST", url, data=data)
+    def _post(self, url, data, *, wait_for_response=True):
+        return self._request("POST", url, data=data, wait_for_response=wait_for_response)
 
-    def _post_with_updated_by(self, url, data, user):
-        data = dict(data, updated_by=user)
+    def _post_with_updated_by(self, url, data, user, *, wait_for_response=True):
+        data = dict(data, updated_by=user, wait_for_response=wait_for_response)
         return self._post(url, data)
 
-    def _delete(self, url, data=None):
-        return self._request("DELETE", url, data=data)
+    def _delete(self, url, data=None, *, wait_for_response=True):
+        return self._request("DELETE", url, data=data, wait_for_response=wait_for_response)
 
-    def _delete_with_updated_by(self, url, data, user):
+    def _delete_with_updated_by(self, url, data, user, *, wait_for_response=True):
         data = dict(data, updated_by=user)
-        return self._delete(url, data)
+        return self._delete(url, data, wait_for_response=wait_for_response)
 
     def _build_url(self, url, params):
         if not self._base_url:
